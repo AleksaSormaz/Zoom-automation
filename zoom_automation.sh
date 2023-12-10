@@ -6,17 +6,19 @@ send_message() {
     zoom_window_id=$(xdotool search --onlyvisible --class "zoom" | head -n 1)
 
     if [ -n "$zoom_window_id" ]; then
-        # Focus on the Zoom window
-        xdotool windowactivate --sync "$zoom_window_id"
+        # Get the ID of the currently active window
+        active_window_id=$(xdotool getactivewindow)
+
+        # Check if the Zoom window is active
+        if [ "$zoom_window_id" == "$active_window_id" ]; then
+            # Type your predefined message
+            xdotool type "Your custom message here"
         
-        # Wait for a few seconds to ensure the window is focused
-        sleep 2
-        
-        # Type your predefined message
-        xdotool type "Your predefined message here"
-        
-        # Press Enter to send the message
-        xdotool key Return
+            # Press Enter to send the message
+            xdotool key Return
+        else
+            echo "Zoom window is not active"
+        fi
     else
         echo "Zoom window not found"
     fi
@@ -24,11 +26,8 @@ send_message() {
 
 # Function to join a Zoom meeting
 join_meeting() {
-    # Replace this command with the command to join your Zoom meeting
-    # For example:
-    # /path/to/zoom --url=YOUR_ZOOM_MEETING_URL
-    # You'll need to replace "/path/to/zoom" and "YOUR_ZOOM_MEETING_URL" with your actual Zoom executable path and meeting URL.
-    echo "Command to join the Zoom meeting goes here"
+    # Command to join your Zoom meeting (change the path as needed)
+    /snap/bin/zoom-client zoommtg://zoom.us/join?uri="Your Zoom Meeting URL"
 }
 
 # Specify the target date (format: YYYYMMDD)
